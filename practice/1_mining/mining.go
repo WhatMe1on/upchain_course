@@ -1,9 +1,9 @@
 package main
 
 import (
-	"math"
 	"crypto/sha256"
 	"fmt"
+	"math"
 	"time"
 )
 
@@ -48,13 +48,12 @@ func mine(targetZeros int, nickname string) (int64, string, string, time.Duratio
 	return nonce, fmt.Sprintf("%x", hash), fmt.Sprintf("%s%d", nickname, nonce), duration
 }
 
-func getMaxRange(bits  int) uint8 {
+func getMaxRange(bits int) uint8 {
 	if bits <= 0 || bits > 8 {
 		return 255
 	}
 	return byte((1 << (8 - bits)) - 1)
 }
-
 
 func main() {
 	nickname := "Tora"
