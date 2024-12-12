@@ -1,15 +1,6 @@
 package main
 
 import (
-	// "crypto/sha256"
-	// "encoding/binary"
-
-	// // "encoding/hex"
-	// "strconv"
-	// "fmt"
-
-	// "encoding/hex"
-	// "strings"
 	"math"
 	"crypto/sha256"
 	"fmt"
@@ -64,53 +55,9 @@ func getMaxRange(bits  int) uint8 {
 	return byte((1 << (8 - bits)) - 1)
 }
 
-// func main() {
-
-//     // s := "sha1 this string"
-//     // h := sha1.New()
-//     // h.Write([]byte(s))
-//     // sha1_hash := hex.EncodeToString(h.Sum(nil))
-
-//     // fmt.Println(s, sha1_hash)
-// 	name_str := "Tora"
-// 	precision := int(4)
-
-// 	fmt.Println(puzzle(name_str, precision))
-// }
-
-// func mine(targetZeros int, nickname string) (int64, string, string, time.Duration) {
-// 	// 定义目标前缀
-// 	targetPrefix := strings.Repeat("0", targetZeros)
-
-// 	// 开始计时
-// 	startTime := time.Now()
-
-// 	// 不断尝试不同的 nonce
-// 	var nonce int64 = 0
-// 	var hash string
-// 	for {
-// 		// 拼接昵称和 nonce
-// 		data := fmt.Sprintf("%s%d", nickname, nonce)
-
-// 		// 计算 SHA-256 哈希
-// 		hashBytes := sha256.Sum256([]byte(data))
-// 		hash = hex.EncodeToString(hashBytes[:])
-
-// 		// 检查是否满足目标条件
-// 		if strings.HasPrefix(hash, targetPrefix) {
-// 			break
-// 		}
-
-// 		nonce++
-// 	}
-
-// 	// 结束计时
-// 	duration := time.Since(startTime)
-// 	return nonce, hash, fmt.Sprintf("%s%d", nickname, nonce), duration
-// }
 
 func main() {
-	nickname := "Tora" // 将此处替换为你的昵称
+	nickname := "Tora"
 
 	// 找到以 4 个零开头的哈希
 	nonce, hash, data, duration := mine(4, nickname)
