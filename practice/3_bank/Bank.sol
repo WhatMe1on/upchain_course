@@ -7,13 +7,13 @@ contract Bank {
     uint public balance;
     uint public counter;
 
-    error Bank_NotOwner();
-    error Bank_withdraw2Failed();
-    error Bank_withdraw3Failed();
+    error Bank__NotOwner();
+    error Bank__withdraw2Failed();
+    error Bank__withdraw3Failed();
 
     modifier M_onlyOwner() {
         if (msg.sender != s_owner) {
-            revert Bank_NotOwner();
+            revert Bank__NotOwner();
         }
         _;
     }
@@ -37,7 +37,7 @@ contract Bank {
     function withdraw2() public M_onlyOwner {
         bool success = (payable(msg.sender)).send(address(this).balance);
         if (!success) {
-            revert Bank_withdraw2Failed();
+            revert Bank__withdraw2Failed();
         }
         changeBalance();
     }
@@ -47,7 +47,7 @@ contract Bank {
             value: address(this).balance
         }("");
         if (!success) {
-            revert Bank_withdraw3Failed();
+            revert Bank__withdraw3Failed();
         }
         changeBalance();
     }
