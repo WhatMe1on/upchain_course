@@ -108,11 +108,11 @@ contract Bank {
 contract BigBank is Bank {
     uint256 MIN_DEPOSIT = 0.001 ether;
 
-    error BigBank__notSatisfyMinDeposit(uint256);
+    error BigBank__notSatisfyMinDeposit();
 
     modifier M_minDeposit() {
         if (msg.value < MIN_DEPOSIT) {
-            revert BigBank__notSatisfyMinDeposit(msg.value);
+            revert BigBank__notSatisfyMinDeposit();
         }
         _;
     }
