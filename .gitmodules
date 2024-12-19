@@ -1,3 +1,6 @@
 [submodule "practice/9_erc20/lib/openzeppelin-contracts"]
 	path = practice/9_erc20/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "practice/11_erc721/lib/forge-std"]
+	path = practice/11_erc721/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
