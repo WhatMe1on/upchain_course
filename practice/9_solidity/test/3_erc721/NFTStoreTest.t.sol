@@ -9,8 +9,8 @@ import "../../script/3_erc721/DeployNFTStore.s.sol";
 
 contract NFTStoreTest is Test {
     uint256 constant INIT_TOKEN_AMOUNT = 1 * 10 ** 5;
-    string constant INIT_NFT_STRING = "bafkreibghc36hemmts7e45exndopide3mcqslje3mdrlzqf4y2hkcebnei";
-    uint256 INIT_NFT_ID;
+    string constant NFT_STRING = "bafkreibghc36hemmts7e45exndopide3mcqslje3mdrlzqf4y2hkcebnei";
+    uint256 NFT_ID = 0;
 
     NFTERC721 s_nft;
     NFTStore s_nftStore;
@@ -20,22 +20,59 @@ contract NFTStoreTest is Test {
 
     function setUp() public {
         DeployNFTStore deployer = new DeployNFTStore();
-        (s_nft, s_nftStore, s_token) = new DeployNFTStore().run(INIT_TOKEN_AMOUNT);
+        (s_nft, s_nftStore, s_token) = new DeployNFTStore().run(INIT_TOKEN_AMOUNT * 2);
         s_owner = makeAddr("NFTOwner");
         s_buyer = makeAddr("NFTBuyer");
-        vm.startPrank(address(msg.sender));
-        s_token.transfer(s_owner, INIT_TOKEN_AMOUNT / 2);
-        s_token.transfer(s_buyer, INIT_TOKEN_AMOUNT / 2);
+        
+        deal(address(s_token), s_owner, INIT_TOKEN_AMOUNT);
+        deal(address(s_token), s_buyer, INIT_TOKEN_AMOUNT);
 
-        vm.stopPrank();
-
-        INIT_NFT_ID = s_nft.awardItem(s_owner, INIT_NFT_STRING);
+        NFT_ID = s_nft.awardItem(s_owner, NFT_STRING);
+        // deal(address(s_nft), s_owner, 0);
     }
 
-    function testputawayNFT() public {
+    function testputawayNFTOwnerChange() public {
         vm.prank(s_owner);
-        // s_nft.putaway(address(s_nftStore), INIT_NFT_ID, INIT_TOKEN_AMOUNT / 2);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
 
+        assertEq(s_nft.ownerOf(NFT_ID), address(s_nftStore));
+    }
 
+    function testputawayNFTStoreMetadata() public {
+        vm.prank(s_owner);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+
+        assertEq(s_owner, s_nftStore.getMetadata(NFT_ID).owner);
+        assertEq(INIT_TOKEN_AMOUNT, s_nftStore.getMetadata(NFT_ID).price);
+    }
+
+    function testDisPutawayWithoutAuth(uint256 nftId) public {
+        vm.prank(s_owner);
+        vm.expectRevert();
+        s_nft.disPutaway(address(s_nftStore), nftId);
+    }
+
+    function testDisPutawayOwner() public {
+        vm.prank(s_owner);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+        vm.prank(s_owner);
+        s_nft.disPutaway(address(s_nftStore), NFT_ID);
+
+        assertEq(s_nft.ownerOf(NFT_ID), s_owner);
+    }
+
+    function testDisPutawayMetadataClear() public {
+        vm.prank(s_owner);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+        vm.prank(s_owner);
+        s_nft.disPutaway(address(s_nftStore), NFT_ID);
+
+        assertEq(s_nftStore.getMetadata(NFT_ID).owner, address(0));
+        assertEq(s_nftStore.getMetadata(NFT_ID).price, 0);
+    }
+
+    function testbuyNFT() public {
+        vm.prank(s_owner);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
     }
 }

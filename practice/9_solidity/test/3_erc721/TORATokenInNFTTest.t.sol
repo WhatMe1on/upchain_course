@@ -10,8 +10,8 @@ import {IERC20Errors} from "@openzeppelin/contracts/interfaces/draft-IERC6093.so
 
 contract TORATokenInNFTTest is Test {
     uint256 constant INIT_TOKEN_AMOUNT = 1 * 10 ** 5;
-    string constant INIT_NFT_STRING = "bafkreibghc36hemmts7e45exndopide3mcqslje3mdrlzqf4y2hkcebnei";
-    uint256 INIT_NFT_ID;
+    string constant NFT_STRING = "bafkreibghc36hemmts7e45exndopide3mcqslje3mdrlzqf4y2hkcebnei";
+    uint256 NFT_ID;
 
     NFTERC721 s_nft;
     NFTStore s_nftStore;
@@ -30,7 +30,7 @@ contract TORATokenInNFTTest is Test {
 
         vm.stopPrank();
 
-        INIT_NFT_ID = s_nft.awardItem(s_owner, INIT_NFT_STRING);
+        NFT_ID = s_nft.awardItem(s_owner, NFT_STRING);
     }
 
     function testTransferWithoutApproveAuth() external {
@@ -45,16 +45,21 @@ contract TORATokenInNFTTest is Test {
     function testTokenTransferAuth() external {
         vm.prank(s_owner);
         s_token.approve(s_buyer, INIT_TOKEN_AMOUNT);
-
         vm.prank(s_buyer);
+        
         s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT);
     }
 
-    function testTokenTransferAuth2() external {
+    function testTokenTransferExceedApproveAuth() external {
         vm.prank(s_owner);
         s_token.approve(s_buyer, INIT_TOKEN_AMOUNT);
-
         vm.prank(s_buyer);
-        s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT);
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IERC20Errors.ERC20InsufficientAllowance.selector, s_buyer, INIT_TOKEN_AMOUNT, INIT_TOKEN_AMOUNT + 1
+            )
+        );
+
+        s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT + 1);
     }
 }

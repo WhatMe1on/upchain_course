@@ -4,9 +4,9 @@ pragma solidity ^0.8.18;
 import {ERC721URIStorage, ERC721} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 interface INFTStore {
-    function putawayNFT(address _NFTOwner,uint256 _NFTId, uint256 _NFTprice) external;
+    function putawayNFT(address _NFTOwner, uint256 _NFTId, uint256 _NFTprice) external;
     function disPutawayNFT(address _NFTOwner, uint256 _NFTId) external;
-    function buyNFT(address _NFTBuyer,uint256 _NFTId) external;
+    function buyNFT(address _NFTBuyer, uint256 _NFTId) external;
 }
 
 contract NFTERC721 is ERC721URIStorage {
@@ -33,7 +33,9 @@ contract NFTERC721 is ERC721URIStorage {
             revert NFTERC721__NFTOwnerNotSender();
         }
 
-        this.approve(storeAddress, NFTId);
+        // approve
+        _approve(address(this), NFTId, address(0));
+
         // send NFT from seller
         this.safeTransferFrom(msg.sender, storeAddress, NFTId);
         INFTStore(storeAddress).putawayNFT(msg.sender, NFTId, NFTPrice);
@@ -42,8 +44,11 @@ contract NFTERC721 is ERC721URIStorage {
     }
 
     function disPutaway(address storeAddress, uint256 NFTId) external returns (bool returnsFlag) {
-        // approve the NFT
+        // check NFT owner
         INFTStore(storeAddress).disPutawayNFT(msg.sender, NFTId);
+
+        // approve the NFT
+        _approve(address(this), NFTId, address(0));
 
         // transfer NFT
         this.safeTransferFrom(storeAddress, msg.sender, NFTId);
@@ -53,8 +58,12 @@ contract NFTERC721 is ERC721URIStorage {
 
     function buy(address storeAddress, uint256 NFTId) external returns (bool returnsFlag) {
         // approve the NFT
+        _approve(address(this), NFTId, address(0));
+
+        // check token
         INFTStore(storeAddress).buyNFT(msg.sender, NFTId);
 
+        // transfer NFT
         this.safeTransferFrom(storeAddress, msg.sender, NFTId);
 
         returnsFlag = true;

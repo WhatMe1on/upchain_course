@@ -3,11 +3,13 @@ pragma solidity ^0.8.18;
 
 import {ERC721URIStorage, ERC721} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {INFTStore} from "./NFT.sol";
 import {TORATokenInNFT} from "./TORATokenInNFT.sol";
 
-contract NFTStore is INFTStore {
+contract NFTStore is INFTStore, IERC721Receiver {
     error NFTStore__NotNFTAddress();
+    error NFTStore__NFTNotOwner();
     error NFTStore__NotTokenAddress();
 
     mapping(uint256 => NFTMetadata) s_NFTMap;
@@ -44,8 +46,9 @@ contract NFTStore is INFTStore {
     }
 
     function disPutawayNFT(address _NFTOwner, uint256 _NFTId) external m_checkNFTAddress {
-        // approve the NFT
-        ERC721(msg.sender).approve(_NFTOwner, _NFTId);
+        if (_NFTOwner != s_NFTMap[_NFTId].owner) {
+            revert NFTStore__NFTNotOwner();
+        }
 
         // update the inner map
         s_NFTMap[_NFTId] = NFTMetadata(address(0), 0);
@@ -55,9 +58,6 @@ contract NFTStore is INFTStore {
         // transfer Token
         provideToken(_NFTBuyer, s_NFTMap[_NFTId].owner, s_NFTMap[_NFTId].price);
 
-        // approve the NFT
-        ERC721(msg.sender).approve(_NFTBuyer, _NFTId);
-
         // update the inner map
         s_NFTMap[_NFTId] = NFTMetadata(address(0), 0);
     }
@@ -65,5 +65,18 @@ contract NFTStore is INFTStore {
     function provideToken(address _from, address _to, uint256 tokenAmount) private {
         TORATokenInNFT(s_TokenAddress).approve(_from, _to, tokenAmount);
         TORATokenInNFT(s_TokenAddress).transferFrom(_from, _to, tokenAmount);
+    }
+
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+        external
+        override
+        returns (bytes4)
+    {
+        s_NFTMap[tokenId] = NFTMetadata(operator, type(uint256).max);
+        return this.onERC721Received.selector;
+    }
+
+    function getMetadata(uint256 nftId) external returns (NFTMetadata memory) {
+        return s_NFTMap[nftId];
     }
 }
