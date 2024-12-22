@@ -46,7 +46,7 @@ contract TORATokenInNFTTest is Test {
         vm.prank(s_owner);
         s_token.approve(s_buyer, INIT_TOKEN_AMOUNT);
         vm.prank(s_buyer);
-        
+
         s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT);
         assertEq(s_token.balanceOf(s_buyer), INIT_TOKEN_AMOUNT * 2);
     }

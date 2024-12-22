@@ -27,6 +27,7 @@ contract NFTERC721 is ERC721URIStorage {
         return tokenId;
     }
 
+    // 这部分代码逻辑应该去NFTStore里
     function putaway(address storeAddress, uint256 NFTId, uint256 NFTPrice) external returns (bool returnsFlag) {
         // checkNFT owner
         if (this.ownerOf(NFTId) != msg.sender) {
@@ -43,6 +44,7 @@ contract NFTERC721 is ERC721URIStorage {
         returnsFlag = true;
     }
 
+    // 这部分代码逻辑应该去NFTStore里
     function disPutaway(address storeAddress, uint256 NFTId) external returns (bool returnsFlag) {
         // check NFT owner
         INFTStore(storeAddress).disPutawayNFT(msg.sender, NFTId);
@@ -56,6 +58,7 @@ contract NFTERC721 is ERC721URIStorage {
         returnsFlag = true;
     }
 
+    // 这部分代码逻辑应该去NFTStore里
     function buy(address storeAddress, uint256 NFTId) external returns (bool returnsFlag) {
         // approve the NFT
         _approve(address(this), NFTId, address(0));

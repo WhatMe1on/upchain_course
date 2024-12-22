@@ -5,9 +5,10 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract TORATokenInNFT is ERC20 {
     error TORATokenInNFT__TXOperatorNotOwner(address _address);
+
     address public s_sender;
 
-    constructor(uint amount) ERC20("TORAToken", "ToraT") {
+    constructor(uint256 amount) ERC20("TORAToken", "ToraT") {
         _mint(msg.sender, amount);
         s_sender = msg.sender;
     }

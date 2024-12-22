@@ -35,11 +35,11 @@ contract Vault is TokenRecipient {
         return returnFlag;
     }
 
-    function getBalance(address user) public view returns (uint) {
+    function getBalance(address user) public view returns (uint256) {
         return s_balanceMap[user];
     }
 
-    function getBalance() external view returns (uint) {
+    function getBalance() external view returns (uint256) {
         return s_balanceMap[msg.sender];
     }
 }
