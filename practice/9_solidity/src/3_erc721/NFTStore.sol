@@ -23,13 +23,6 @@ contract NFTStore is INFTStore, IERC721Receiver {
         _;
     }
 
-    modifier m_checkTokenAddress() {
-        if (msg.sender != s_NFTAddress) {
-            revert NFTStore__NotTokenAddress();
-        }
-        _;
-    }
-
     struct NFTMetadata {
         address owner;
         uint256 price;
@@ -38,6 +31,24 @@ contract NFTStore is INFTStore, IERC721Receiver {
     constructor(address _NFTAddress, address _TokenAddress) {
         s_NFTAddress = _NFTAddress;
         s_TokenAddress = _TokenAddress;
+    }
+
+    function provideToken(address _from, address _to, uint256 tokenAmount) private {
+        TORATokenInNFT(s_TokenAddress).approve(_from, address(this), tokenAmount);
+        TORATokenInNFT(s_TokenAddress).transferFrom(_from, _to, tokenAmount);
+    }
+
+    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+        external
+        override
+        returns (bytes4)
+    {
+        s_NFTMap[tokenId] = NFTMetadata(operator, type(uint256).max);
+        return this.onERC721Received.selector;
+    }
+
+    function getMetadata(uint256 nftId) external view returns (NFTMetadata memory) {
+        return s_NFTMap[nftId];
     }
 
     function putawayNFT(address _NFTOwner, uint256 _NFTId, uint256 _NFTprice) external m_checkNFTAddress {
@@ -60,23 +71,5 @@ contract NFTStore is INFTStore, IERC721Receiver {
 
         // update the inner map
         s_NFTMap[_NFTId] = NFTMetadata(address(0), 0);
-    }
-
-    function provideToken(address _from, address _to, uint256 tokenAmount) private {
-        TORATokenInNFT(s_TokenAddress).approve(_from, _to, tokenAmount);
-        TORATokenInNFT(s_TokenAddress).transferFrom(_from, _to, tokenAmount);
-    }
-
-    function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
-        external
-        override
-        returns (bytes4)
-    {
-        s_NFTMap[tokenId] = NFTMetadata(operator, type(uint256).max);
-        return this.onERC721Received.selector;
-    }
-
-    function getMetadata(uint256 nftId) external returns (NFTMetadata memory) {
-        return s_NFTMap[nftId];
     }
 }

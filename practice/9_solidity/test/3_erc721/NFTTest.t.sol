@@ -18,7 +18,7 @@ contract NFTTest is Test {
 
     function setUp() public {
         DeployNFTStore deployer = new DeployNFTStore();
-        (s_nft,,) = new DeployNFTStore().run(INIT_TOKEN_AMOUNT);
+        (s_nft,,) = deployer.run(INIT_TOKEN_AMOUNT);
         s_owner = makeAddr("NFTOwner");
         s_buyer = makeAddr("NFTBuyer");
         vm.startPrank(address(msg.sender));

@@ -21,7 +21,7 @@ contract TORATokenInNFTTest is Test {
 
     function setUp() public {
         DeployNFTStore deployer = new DeployNFTStore();
-        (s_nft, s_nftStore, s_token) = new DeployNFTStore().run(INIT_TOKEN_AMOUNT * 2);
+        (s_nft, s_nftStore, s_token) = deployer.run(INIT_TOKEN_AMOUNT * 2);
         s_owner = makeAddr("NFTOwner");
         s_buyer = makeAddr("NFTBuyer");
         vm.startPrank(address(msg.sender));
@@ -48,6 +48,7 @@ contract TORATokenInNFTTest is Test {
         vm.prank(s_buyer);
         
         s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT);
+        assertEq(s_token.balanceOf(s_buyer), INIT_TOKEN_AMOUNT * 2);
     }
 
     function testTokenTransferExceedApproveAuth() external {

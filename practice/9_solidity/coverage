@@ -1,0 +1,69 @@
+Compiling 61 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.37s
+Compiler run successful with warnings:
+Warning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.
+  --> src/3_erc721/NFTStore.sol:41:49:
+   |
+41 |     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+   |                                                 ^^^^^^^^^^^^
+
+Warning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.
+  --> src/3_erc721/NFTStore.sol:41:80:
+   |
+41 |     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
+   |                                                                                ^^^^^^^^^^^^^^^^^^^
+
+Warning (2072): Unused local variable.
+  --> src/1_minProxy/Proxy.sol:14:9:
+   |
+14 |         address _implementation = s_implementsAddress;
+   |         ^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/3_erc721/NFTTest.t.sol:30:5:
+   |
+30 |     function testAwardNFT() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Analysing contracts...
+Running tests...
+
+Ran 3 tests for test/3_erc721/TORATokenInNFTTest.t.sol:TORATokenInNFTTest
+[PASS] testTokenTransferAuth() (gas: 41719)
+[PASS] testTokenTransferExceedApproveAuth() (gas: 43853)
+[PASS] testTransferWithoutApproveAuth() (gas: 18537)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 23.01ms (1.37ms CPU time)
+
+Ran 4 tests for test/3_erc721/NFTTest.t.sol:NFTTest
+[PASS] testApproveAuthBuyerNFT() (gas: 60947)
+[PASS] testApproveAuthOwnerNFT() (gas: 58783)
+[PASS] testAwardNFT() (gas: 15996)
+[PASS] testTransferNFT() (gas: 60788)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 23.20ms (2.45ms CPU time)
+
+Ran 10 tests for test/3_erc721/NFTStoreTest.t.sol:NFTStoreTest
+[PASS] testDisPutawayMetadataClear() (gas: 139971)
+[PASS] testDisPutawayOwner() (gas: 136706)
+[PASS] testDisPutawayWithoutAuth(uint256) (runs: 257, μ: 20326, ~: 20326)
+[PASS] testNFTOwnerNotSender() (gas: 20243)
+[PASS] testNotNFTAddressModifier1() (gas: 14334)
+[PASS] testNotNFTAddressModifier2() (gas: 14047)
+[PASS] testNotNFTAddressModifier3() (gas: 14135)
+[PASS] testbuyNFT() (gas: 195313)
+[PASS] testputawayNFTOwnerChange() (gas: 112737)
+[PASS] testputawayNFTStoreMetadata() (gas: 116890)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 52.06ms (32.43ms CPU time)
+
+Ran 3 test suites in 56.12ms (98.27ms CPU time): 17 tests passed, 0 failed, 0 skipped (17 total tests)
+| File                                 | % Lines         | % Statements    | % Branches    | % Funcs        |
+|--------------------------------------|-----------------|-----------------|---------------|----------------|
+| script/3_erc721/DeployNFTStore.s.sol | 100.00% (7/7)   | 100.00% (9/9)   | 100.00% (0/0) | 100.00% (1/1)  |
+| src/1_minProxy/ERC20Factory.sol      | 100.00% (0/0)   | 100.00% (0/0)   | 100.00% (0/0) | 0.00% (0/2)    |
+| src/1_minProxy/Proxy.sol             | 0.00% (0/2)     | 0.00% (0/2)     | 100.00% (0/0) | 0.00% (0/2)    |
+| src/2_erc20/TORAToken.sol            | 0.00% (0/1)     | 0.00% (0/1)     | 100.00% (0/0) | 0.00% (0/1)    |
+| src/2_erc20/Vault.sol                | 0.00% (0/15)    | 0.00% (0/15)    | 0.00% (0/4)   | 0.00% (0/5)    |
+| src/2_erc20/VaultERC20.sol           | 0.00% (0/12)    | 0.00% (0/14)    | 0.00% (0/2)   | 0.00% (0/4)    |
+| src/3_erc721/NFT.sol                 | 100.00% (17/17) | 100.00% (20/20) | 100.00% (1/1) | 100.00% (4/4)  |
+| src/3_erc721/NFTStore.sol            | 100.00% (15/15) | 100.00% (15/15) | 100.00% (2/2) | 100.00% (8/8)  |
+| src/3_erc721/TORATokenInNFT.sol      | 100.00% (4/4)   | 100.00% (4/4)   | 100.00% (0/0) | 100.00% (2/2)  |
+| Total                                | 58.90% (43/73)  | 60.00% (48/80)  | 33.33% (3/9)  | 51.72% (15/29) |

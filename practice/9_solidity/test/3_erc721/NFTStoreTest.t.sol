@@ -20,10 +20,10 @@ contract NFTStoreTest is Test {
 
     function setUp() public {
         DeployNFTStore deployer = new DeployNFTStore();
-        (s_nft, s_nftStore, s_token) = new DeployNFTStore().run(INIT_TOKEN_AMOUNT * 2);
+        (s_nft, s_nftStore, s_token) = deployer.run(INIT_TOKEN_AMOUNT * 2);
         s_owner = makeAddr("NFTOwner");
         s_buyer = makeAddr("NFTBuyer");
-        
+
         deal(address(s_token), s_owner, INIT_TOKEN_AMOUNT);
         deal(address(s_token), s_buyer, INIT_TOKEN_AMOUNT);
 
@@ -33,6 +33,7 @@ contract NFTStoreTest is Test {
 
     function testputawayNFTOwnerChange() public {
         vm.prank(s_owner);
+
         s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
 
         assertEq(s_nft.ownerOf(NFT_ID), address(s_nftStore));
@@ -40,6 +41,7 @@ contract NFTStoreTest is Test {
 
     function testputawayNFTStoreMetadata() public {
         vm.prank(s_owner);
+
         s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
 
         assertEq(s_owner, s_nftStore.getMetadata(NFT_ID).owner);
@@ -56,6 +58,7 @@ contract NFTStoreTest is Test {
         vm.prank(s_owner);
         s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
         vm.prank(s_owner);
+
         s_nft.disPutaway(address(s_nftStore), NFT_ID);
 
         assertEq(s_nft.ownerOf(NFT_ID), s_owner);
@@ -65,6 +68,7 @@ contract NFTStoreTest is Test {
         vm.prank(s_owner);
         s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
         vm.prank(s_owner);
+
         s_nft.disPutaway(address(s_nftStore), NFT_ID);
 
         assertEq(s_nftStore.getMetadata(NFT_ID).owner, address(0));
@@ -74,5 +78,35 @@ contract NFTStoreTest is Test {
     function testbuyNFT() public {
         vm.prank(s_owner);
         s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+        vm.prank(s_buyer);
+
+        s_nft.buy(address(s_nftStore), NFT_ID);
+
+        assertEq(s_nft.ownerOf(NFT_ID), s_buyer);
+        assertEq(s_token.balanceOf(s_owner), INIT_TOKEN_AMOUNT * 2);
+    }
+
+    function testNFTOwnerNotSender() public {
+        vm.prank(s_buyer);
+        vm.expectRevert(NFTERC721.NFTERC721__NFTOwnerNotSender.selector);
+        s_nft.putaway(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+    }
+
+    function testNotNFTAddressModifier1() public {
+        vm.prank(s_buyer);
+        vm.expectRevert(NFTStore.NFTStore__NotNFTAddress.selector);
+        s_nftStore.putawayNFT(address(s_nftStore), NFT_ID, INIT_TOKEN_AMOUNT);
+    }
+
+    function testNotNFTAddressModifier2() public {
+        vm.prank(s_buyer);
+        vm.expectRevert(NFTStore.NFTStore__NotNFTAddress.selector);
+        s_nftStore.disPutawayNFT(address(s_nftStore), NFT_ID);
+    }
+
+    function testNotNFTAddressModifier3() public {
+        vm.prank(s_buyer);
+        vm.expectRevert(NFTStore.NFTStore__NotNFTAddress.selector);
+        s_nftStore.buyNFT(address(s_nftStore), NFT_ID);
     }
 }
