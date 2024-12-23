@@ -60,7 +60,6 @@ contract TORATokenInNFTTest is Test {
                 IERC20Errors.ERC20InsufficientAllowance.selector, s_buyer, INIT_TOKEN_AMOUNT, INIT_TOKEN_AMOUNT + 1
             )
         );
-
         s_token.transferFrom(s_owner, s_buyer, INIT_TOKEN_AMOUNT + 1);
     }
 }

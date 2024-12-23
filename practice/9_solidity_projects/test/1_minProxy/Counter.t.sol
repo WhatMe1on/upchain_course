@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {Counter} from "@ToraPJ/src/1_minProxy/Counter.sol";
+import {Counter} from "src/1_minProxy/Counter.sol";
 
 contract CounterTest is Test {
     Counter public counter;

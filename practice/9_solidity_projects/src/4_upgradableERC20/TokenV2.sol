@@ -1,24 +1,23 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+// import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 interface TokenRecipient {
     function depositToken(address user, uint256 amount) external returns (bool);
     function withdrawToken(address user, uint256 amount) external returns (bool);
 }
 
-contract TokenV2 is ERC20 {
+/// @custom:oz-upgrades-from src/4_upgradableERC20/TokenV1.sol:TokenV1
+contract TokenV2 is ERC20Upgradeable {
     using Address for address;
 
     error VaultERC20__NoTokensReceived();
 
     uint256 s_counter;
-
-    constructor() ERC20("VaultCoin", "VaC") {
-        _mint(msg.sender, 10 * 10 ** 18);
-    }
 
     function deposit(address s_receipt, uint256 amount) external returns (bool) {
         //Add this function can let allowance reduce by the amount
@@ -46,13 +45,15 @@ contract TokenV2 is ERC20 {
         return true;
     }
 
-    function initialize() external {}
+    function initialize() external payable initializer {
+        __ERC20_init("TORAToken", "ToraT");
+    }
 
-    function add3() external{
+    function add3() external {
         s_counter += 3;
     }
 
-    function add() external{
+    function add() external {
         s_counter += 2;
     }
 }
