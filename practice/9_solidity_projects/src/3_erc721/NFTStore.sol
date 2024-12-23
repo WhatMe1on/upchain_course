@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import {ERC721URIStorage, ERC721} from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {INFTStore} from "./NFT.sol";
 import {TORATokenInNFT} from "./TORATokenInNFT.sol";
 

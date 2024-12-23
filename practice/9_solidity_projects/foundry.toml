@@ -2,7 +2,11 @@
 src = "src"
 out = "out"
 libs = ["./lib"]
-remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"]
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
+    "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+    "@ToraPJ/=./",
+]
 
 # below settings are for OZ upgrades plugins https://docs.openzeppelin.com/upgrades-plugins/1.x/foundry-defender
 ffi = true
