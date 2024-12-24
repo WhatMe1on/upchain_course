@@ -3,13 +3,17 @@
 ## todo
 - [ ] [如何通过fork url部署test并切换账户部署呢](#jump2)
 
+
 ## finished
 - [x] [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
+
+## unable to do
+- [ ] [foundry里面连metamask进行测试网部署](#jump3)
 
 ## detail
 
 <span id="jump1"></span>
-为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊
+### 为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊
 
 ```solidity
 new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
@@ -30,4 +34,11 @@ new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
 
 
 <span id="jump2"></span>
-如何通过fork url部署test并切换账户部署呢
+### 如何通过fork url部署test并切换账户部署呢
+暂时先用环境变量读取本地测试专用钱包私钥并进行部署
+
+<span id="jump3"></span>
+### foundry里面连metamask进行测试网部署
+
+foundry 暂时不支持直接调用metamask
+https://github.com/foundry-rs/foundry/issues/6556

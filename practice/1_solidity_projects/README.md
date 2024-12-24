@@ -19,5 +19,5 @@ extra_output = ["storageLayout"]
 3. If you are upgrading your contract from a previous version, add the `@custom:oz-upgrades-from <reference>` annotation to the new version of your contract according to [Define Reference Contracts](https://docs.openzeppelin.com/upgrades-plugins/1.x/api-core#define-reference-contracts) or specify the `referenceContract` option when calling the library's functions.
 4. Run `forge clean` before running your Foundry script or tests, or include the `--force` option when running `forge script` or `forge test`.
 
-you can find a more details in OZ docs -> 
+you can find more details in OZ docs -> 
 https://docs.openzeppelin.com/upgrades-plugins/1.x/foundry-upgrades#before_running
