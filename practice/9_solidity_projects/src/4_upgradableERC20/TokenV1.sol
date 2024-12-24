@@ -6,7 +6,7 @@ pragma solidity ^0.8.18;
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 
 contract TokenV1 is ERC20Upgradeable {
-    uint256 s_counter;
+    uint256 public s_counter;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -20,5 +20,9 @@ contract TokenV1 is ERC20Upgradeable {
 
     function add() external {
         s_counter++;
+    }
+
+    function addI(uint256 input) external {
+        s_counter += input;
     }
 }

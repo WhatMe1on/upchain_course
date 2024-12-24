@@ -2,10 +2,10 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-import {NFTERC721} from "../../src/3_erc721/NFT.sol";
-import {NFTStore} from "../../src/3_erc721/NFTStore.sol";
-import {TORATokenInNFT} from "../../src/3_erc721/TORATokenInNFT.sol";
-import "../../script/3_erc721/DeployNFTStore.s.sol";
+import {NFTERC721} from "src/3_erc721/NFT.sol";
+import {NFTStore} from "src/3_erc721/NFTStore.sol";
+import {TORATokenInNFT} from "src/3_erc721/TORATokenInNFT.sol";
+import "script/3_erc721/DeployNFTStore.s.sol";
 import {IERC20Errors} from "@openzeppelin/contracts/interfaces/draft-IERC6093.sol";
 
 contract TORATokenInNFTTest is Test {

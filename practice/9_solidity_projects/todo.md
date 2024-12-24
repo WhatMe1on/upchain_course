@@ -1,17 +1,15 @@
 
 
 ## todo
-- [ ] [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
-
+- [ ] [如何通过fork url部署test并切换账户部署呢](#jump2)
 
 ## finished
+- [x] [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
 
 ## detail
 
-<span id="jump1">
+<span id="jump1"></span>
 为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊
-</span>
-
 
 ```solidity
 new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
@@ -29,3 +27,7 @@ new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
     ├─ [4196715] → new TokenDeploy@0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f
 ```
 - 查来查去没啥进展 突然发现官方文档提议 coverage建议使用unsafeUpgrade,换成unsafe之后逻辑能跑了,推测是Upgrades.function()这个的msg sender通过prank伪造不了? 所以之前一直是not owner?,通过fork部署test并切换账户部署呢?
+
+
+<span id="jump2"></span>
+如何通过fork url部署test并切换账户部署呢

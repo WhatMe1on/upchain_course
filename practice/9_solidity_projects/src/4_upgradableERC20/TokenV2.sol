@@ -17,8 +17,8 @@ contract TokenV2 is ERC20Upgradeable {
 
     error VaultERC20__NoTokensReceived();
 
-    uint256 s_counter;
-    uint256 s_counter2;
+    uint256 public s_counter;
+    uint256 public s_counter2;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -51,16 +51,15 @@ contract TokenV2 is ERC20Upgradeable {
         return true;
     }
 
-    function initialize() external payable initializer {}
+    function initialize() external payable reinitializer(2) {
+        s_counter2 = 1;
+    }
 
     function add3() external {
         s_counter += 3;
     }
+
     function counter2add3() external {
         s_counter2 += 3;
-    }
-
-    function add() external {
-        s_counter += 2;
     }
 }
