@@ -11,18 +11,15 @@ import {Script} from "forge-std/Script.sol";
 contract TokenDeploy is Script {
     address public s_proxy;
     address public s_bank;
-    address public s_owner;
 
     function DeployTokenV1(address initOwner) external {
         s_proxy =
             Upgrades.deployTransparentProxy("TokenV1.sol:TokenV1", initOwner, abi.encodeCall(TokenV1.initialize, ()));
-            s_owner = msg.sender;
-        
     }
 
     // how to get implements address(tokenV2)? -> use proxy address is enough!
-    function UpgradeTokenV1ToV2() external {
-        Upgrades.upgradeProxy(s_proxy, "TokenV2.sol:TokenV2", abi.encodeCall(TokenV2.initialize, ()));
-        s_bank = address(new TokenV2Bank(s_proxy));
+    function UpgradeTokenV1ToV2(address _proxy) external {
+        Upgrades.upgradeProxy(_proxy, "TokenV2.sol:TokenV2", abi.encodeCall(TokenV2.initialize, ()));
+        s_bank = address(new TokenV2Bank(_proxy));
     }
 }

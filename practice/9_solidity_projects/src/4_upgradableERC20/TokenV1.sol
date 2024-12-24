@@ -8,6 +8,11 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 contract TokenV1 is ERC20Upgradeable {
     uint256 s_counter;
 
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
+
     function initialize() external payable initializer {
         __ERC20_init("TORAToken", "ToraT");
         s_counter = 1;

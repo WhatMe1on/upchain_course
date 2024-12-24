@@ -18,6 +18,12 @@ contract TokenV2 is ERC20Upgradeable {
     error VaultERC20__NoTokensReceived();
 
     uint256 s_counter;
+    uint256 s_counter2;
+
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
+    }
 
     function deposit(address s_receipt, uint256 amount) external returns (bool) {
         //Add this function can let allowance reduce by the amount
@@ -45,12 +51,13 @@ contract TokenV2 is ERC20Upgradeable {
         return true;
     }
 
-    function initialize() external payable initializer {
-        __ERC20_init("TORAToken", "ToraT");
-    }
+    function initialize() external payable initializer {}
 
     function add3() external {
         s_counter += 3;
+    }
+    function counter2add3() external {
+        s_counter2 += 3;
     }
 
     function add() external {
