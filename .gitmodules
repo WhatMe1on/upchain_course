@@ -10,3 +10,12 @@
 [submodule "practice/9_solidity_projects/lib/openzeppelin-contracts-upgradeable"]
 	path = practice/9_solidity_projects/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
+[submodule "practice/1_solidity_projects/lib/forge-std"]
+	path = practice/1_solidity_projects/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "practice/1_solidity_projects/lib/openzeppelin-foundry-upgrades"]
+	path = practice/1_solidity_projects/lib/openzeppelin-foundry-upgrades
+	url = https://github.com/OpenZeppelin/openzeppelin-foundry-upgrades
+[submodule "practice/1_solidity_projects/lib/openzeppelin-contracts-upgradeable"]
+	path = practice/1_solidity_projects/lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
