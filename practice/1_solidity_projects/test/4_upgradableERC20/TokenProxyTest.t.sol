@@ -128,11 +128,11 @@ contract TokenProxyTest is Test {
         // deal(s_proxy, s_player2, INIT_TOKEN_AMOUNT);
     }
 
-    function testBalance() external view {
+    function testBalance() external m_deployTokenV1{
         assertEq(TokenV1(s_proxy).balanceOf(s_player1), INIT_TOKEN_AMOUNT);
     }
 
-    function testTransferWithoutApproveAuth() external {
+    function testTransferWithoutApproveAuth() external m_deployTokenV1{
         vm.prank(s_player1);
         vm.expectRevert(
             abi.encodeWithSelector(IERC20Errors.ERC20InsufficientAllowance.selector, s_player1, 0, INIT_TOKEN_AMOUNT)
@@ -141,7 +141,7 @@ contract TokenProxyTest is Test {
         TokenV1(s_proxy).transferFrom(s_player2, s_player1, INIT_TOKEN_AMOUNT);
     }
 
-    function testTokenTransferAuth() external {
+    function testTokenTransferAuth() external m_deployTokenV1{
         vm.prank(s_player1);
         TokenV1(s_proxy).approve(s_player2, INIT_TOKEN_AMOUNT);
         vm.prank(s_player2);
@@ -150,7 +150,7 @@ contract TokenProxyTest is Test {
         assertEq(TokenV1(s_proxy).balanceOf(s_player2), INIT_TOKEN_AMOUNT * 2);
     }
 
-    function testTokenTransferAuth(uint16 amount) public {
+    function testTokenTransferAuth(uint16 amount) public m_deployTokenV1{
         vm.prank(s_player1);
         TokenV1(s_proxy).approve(s_player2, amount);
         vm.prank(s_player2);
@@ -159,7 +159,7 @@ contract TokenProxyTest is Test {
         assertEq(TokenV1(s_proxy).balanceOf(s_player2), INIT_TOKEN_AMOUNT + amount);
     }
 
-    function testTokenTransferExceedApproveAuth() external {
+    function testTokenTransferExceedApproveAuth() external m_deployTokenV1{
         vm.prank(s_player1);
         TokenV1(s_proxy).approve(s_player2, INIT_TOKEN_AMOUNT);
         vm.prank(s_player2);

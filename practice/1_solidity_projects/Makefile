@@ -33,16 +33,14 @@ format :; forge fmt
 
 anvil :; anvil -m 'test test test test test test test test test test test junk' --steps-tracing --block-time 1
 
-
-NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(PRIVATE_KEY) --broadcast
+NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
 ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
 	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --private-key $(PRIVATE_KEY) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvvv
 endif
 
-
 cdeploy:
-	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS)
+	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
 
 cupdate:
 	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
