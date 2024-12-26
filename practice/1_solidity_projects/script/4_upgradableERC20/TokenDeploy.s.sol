@@ -11,17 +11,22 @@ import {Script, console} from "forge-std/Script.sol";
 
 contract TokenDeploy is BaseDeploy {
     function run() external returns (address _proxy) {
+        vm.startBroadcast();
         _proxy =
             Upgrades.deployTransparentProxy("TokenV1.sol:TokenV1", INIT_OWNER, abi.encodeCall(TokenV1.initialize, ()));
+        vm.stopBroadcast();
     }
 }
 
 contract TokenUpdate is BaseDeploy {
     function run() external returns (address _bank) {
-        Upgrades.deployTransparentProxy("TokenV1.sol:TokenV1", INIT_OWNER, abi.encodeCall(TokenV1.initialize, ()));
+        vm.startBroadcast();
+        address _proxy =
+            Upgrades.deployTransparentProxy("TokenV1.sol:TokenV1", INIT_OWNER, abi.encodeCall(TokenV1.initialize, ()));
         console.log("Tora sender", msg.sender);
-        Upgrades.upgradeProxy(PROXY_ADDRESS, "TokenV2.sol:TokenV2", abi.encodeCall(TokenV2.initialize, ()));
-        _bank = address(new TokenV2Bank(PROXY_ADDRESS));
+        Upgrades.upgradeProxy(_proxy, "TokenV2.sol:TokenV2", abi.encodeCall(TokenV2.initialize, ()));
+        _bank = address(new TokenV2Bank(_proxy));
+        vm.stopBroadcast();
     }
 }
 
