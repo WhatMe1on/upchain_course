@@ -39,8 +39,11 @@ ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
 	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --private-key $(PRIVATE_KEY) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvvv
 endif
 
-cdeploy:
+c4deploy:
 	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
 
-cupdate:
+c4update:
 	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
+
+c5deploy:
+	@forge clean && forge script script/5_bankWithVue/ERC2612Deploy.s.sol:ERC2612Deploy $(NETWORK_ARGS) 
