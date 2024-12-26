@@ -66,10 +66,9 @@ https://github.com/foundry-rs/foundry/issues/6556
 ]
 ```
 
-foundry compile出来的是这种
+forge compile出来的是这种
 ```
-[
-  {
+{
       "type": "constructor",
       "inputs": [
           {
@@ -97,158 +96,7 @@ foundry compile出来的是这种
       ],
       "outputs": [],
       "stateMutability": "nonpayable"
-  },
-  {
-      "type": "function",
-      "name": "deposited",
-      "inputs": [
-          {
-              "name": "",
-              "type": "address",
-              "internalType": "address"
-          }
-      ],
-      "outputs": [
-          {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-          }
-      ],
-      "stateMutability": "view"
-  },
-  {
-      "type": "function",
-      "name": "permitDeposit",
-      "inputs": [
-          {
-              "name": "user",
-              "type": "address",
-              "internalType": "address"
-          },
-          {
-              "name": "amount",
-              "type": "uint256",
-              "internalType": "uint256"
-          },
-          {
-              "name": "deadline",
-              "type": "uint256",
-              "internalType": "uint256"
-          },
-          {
-              "name": "v",
-              "type": "uint8",
-              "internalType": "uint8"
-          },
-          {
-              "name": "r",
-              "type": "bytes32",
-              "internalType": "bytes32"
-          },
-          {
-              "name": "s",
-              "type": "bytes32",
-              "internalType": "bytes32"
-          }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-  },
-  {
-      "type": "function",
-      "name": "token",
-      "inputs": [],
-      "outputs": [
-          {
-              "name": "",
-              "type": "address",
-              "internalType": "address"
-          }
-      ],
-      "stateMutability": "view"
-  },
-  {
-      "type": "function",
-      "name": "tokensReceived",
-      "inputs": [
-          {
-              "name": "operator",
-              "type": "address",
-              "internalType": "address"
-          },
-          {
-              "name": "from",
-              "type": "address",
-              "internalType": "address"
-          },
-          {
-              "name": "to",
-              "type": "address",
-              "internalType": "address"
-          },
-          {
-              "name": "amount",
-              "type": "uint256",
-              "internalType": "uint256"
-          },
-          {
-              "name": "userData",
-              "type": "bytes",
-              "internalType": "bytes"
-          },
-          {
-              "name": "operatorData",
-              "type": "bytes",
-              "internalType": "bytes"
-          }
-      ],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-  },
-  {
-      "type": "function",
-      "name": "tokensReceived",
-      "inputs": [
-          {
-              "name": "sender",
-              "type": "address",
-              "internalType": "address"
-          },
-          {
-              "name": "amount",
-              "type": "uint256",
-              "internalType": "uint256"
-          }
-      ],
-      "outputs": [
-          {
-              "name": "",
-              "type": "bool",
-              "internalType": "bool"
-          }
-      ],
-      "stateMutability": "nonpayable"
-  },
-  {
-      "type": "function",
-      "name": "withdraw",
-      "inputs": [],
-      "outputs": [],
-      "stateMutability": "nonpayable"
-  },
-  {
-      "type": "error",
-      "name": "SafeERC20FailedOperation",
-      "inputs": [
-          {
-              "name": "token",
-              "type": "address",
-              "internalType": "address"
-          }
-      ]
   }
-]
 ```
 
 
