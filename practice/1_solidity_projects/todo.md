@@ -1,10 +1,15 @@
 
+[goto end](#jump0)
+<span id="jump-1"></span>
 
 ## todo
-- [ ] [如何通过fork url部署test并切换账户部署呢](#jump2)
+- [ ] [go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库](#jump6)
 
 ## finished
+- [x] [anvil 里的区块交易慢](#jump5)
+- [x] [如何通过fork url部署test并切换账户部署呢](#jump2)
 - [x] [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
+- [x] [foundry 如何输出ether.js接受的abi](#jump4)
 
 ## unable to do
 - [ ] [foundry里面连metamask进行测试网部署](#jump3)
@@ -37,9 +42,224 @@ new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
 暂时先用环境变量读取本地测试专用钱包私钥并进行部署
 使用make cdeploy时正常 将deploy的address写入env并source后
 使用make cupdate 出现 Error: script failed: <empty revert data>
+->没有加vm.startBroadcast
+
+部署命令已集成至Makefile
 
 <span id="jump3"></span>
 ### foundry里面连metamask进行测试网部署
 
 foundry 暂时不支持直接调用metamask
 https://github.com/foundry-rs/foundry/issues/6556
+
+<span id="jump4"></span>
+### foundry 如何输出ether.js接受的abi
+
+实际上这两种abi都能认
+```
+[
+  "constructor(address)",
+  "function deposit(address,uint256)",
+  "function deposited(address) view returns (uint256)",
+  "function permitDeposit(address,uint256,uint256,uint8,bytes32,bytes32)",
+  "function token() view returns (address)"
+]
+```
+
+foundry compile出来的是这种
+```
+[
+  {
+      "type": "constructor",
+      "inputs": [
+          {
+              "name": "_token",
+              "type": "address",
+              "internalType": "address"
+          }
+      ],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "function",
+      "name": "deposit",
+      "inputs": [
+          {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+          }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "function",
+      "name": "deposited",
+      "inputs": [
+          {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+          }
+      ],
+      "outputs": [
+          {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+          }
+      ],
+      "stateMutability": "view"
+  },
+  {
+      "type": "function",
+      "name": "permitDeposit",
+      "inputs": [
+          {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+          },
+          {
+              "name": "deadline",
+              "type": "uint256",
+              "internalType": "uint256"
+          },
+          {
+              "name": "v",
+              "type": "uint8",
+              "internalType": "uint8"
+          },
+          {
+              "name": "r",
+              "type": "bytes32",
+              "internalType": "bytes32"
+          },
+          {
+              "name": "s",
+              "type": "bytes32",
+              "internalType": "bytes32"
+          }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "function",
+      "name": "token",
+      "inputs": [],
+      "outputs": [
+          {
+              "name": "",
+              "type": "address",
+              "internalType": "address"
+          }
+      ],
+      "stateMutability": "view"
+  },
+  {
+      "type": "function",
+      "name": "tokensReceived",
+      "inputs": [
+          {
+              "name": "operator",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "from",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "to",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+          },
+          {
+              "name": "userData",
+              "type": "bytes",
+              "internalType": "bytes"
+          },
+          {
+              "name": "operatorData",
+              "type": "bytes",
+              "internalType": "bytes"
+          }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "function",
+      "name": "tokensReceived",
+      "inputs": [
+          {
+              "name": "sender",
+              "type": "address",
+              "internalType": "address"
+          },
+          {
+              "name": "amount",
+              "type": "uint256",
+              "internalType": "uint256"
+          }
+      ],
+      "outputs": [
+          {
+              "name": "",
+              "type": "bool",
+              "internalType": "bool"
+          }
+      ],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "function",
+      "name": "withdraw",
+      "inputs": [],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+  },
+  {
+      "type": "error",
+      "name": "SafeERC20FailedOperation",
+      "inputs": [
+          {
+              "name": "token",
+              "type": "address",
+              "internalType": "address"
+          }
+      ]
+  }
+]
+```
+
+
+<span id="jump5"></span>
+### anvil 里的区块交易慢
+https://book.getfoundry.sh/reference/anvil/?highlight=anvil#mining-modes
+
+<span id="jump6"></span>
+### go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库
+
+
+<span id="jump7"></span>
+<span id="jump0"></span>
+[goto todo](#jump-1)
