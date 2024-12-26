@@ -1,5 +1,7 @@
 # set env this env's private key is anvil's default settings
 mv env .env
+## fullfil env
+vim env
 source env
 
 # install dependency
