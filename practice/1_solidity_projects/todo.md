@@ -3,16 +3,18 @@
 <span id="jump-1"></span>
 
 ## todo
-- [ ] [go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库](#jump6)
+- [go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库](#jump6)
+- [怎样快速的在测试环境发生交易?](#jump7)
 
 ## finished
-- [x] [anvil 里的区块交易慢](#jump5)
-- [x] [如何通过fork url部署test并切换账户部署呢](#jump2)
-- [x] [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
-- [x] [foundry 如何输出ether.js接受的abi](#jump4)
+- [anvil 里的区块交易慢](#jump5)
+
+- [如何通过在anvil链上部署test并切换账户部署呢](#jump2)
+- [为什么owner没有起作用? 应该是从 TokenDeploy.DeployTokenV1 这里指定了 接下来proxy的owner了啊](#jump1)
+- [foundry 如何输出ether.js接受的abi](#jump4)
 
 ## unable to do
-- [ ] [foundry里面连metamask进行测试网部署](#jump3)
+- [foundry里面连metamask进行测试网部署](#jump3)
 
 ## detail
 
@@ -36,9 +38,12 @@ new ProxyAdmin@0x671ceF55a1373E85D4522dacE6eea7Cf52B573c8
 ```
 - 查来查去没啥进展 突然发现官方文档提议 coverage建议使用unsafeUpgrade,换成unsafe之后逻辑能跑了,推测是Upgrades.function()这个的msg sender通过prank伪造不了? 所以之前一直是not owner?,通过fork部署test并切换账户部署呢?
 
+发现是自己没写startBroadcast
+https://forum.openzeppelin.com/t/get-ownableunauthorizedaccount-when-upgrade-the-transparent-proxy/42732
+
 
 <span id="jump2"></span>
-### 如何通过fork url部署test并切换账户部署呢
+### 如何通过在anvil链上部署test并切换账户部署呢
 暂时先用环境变量读取本地测试专用钱包私钥并进行部署
 使用make cdeploy时正常 将deploy的address写入env并source后
 使用make cupdate 出现 Error: script failed: <empty revert data>
@@ -106,8 +111,18 @@ https://book.getfoundry.sh/reference/anvil/?highlight=anvil#mining-modes
 
 <span id="jump6"></span>
 ### go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库
+- 1.solidity test里的prank好像发的交易没上链,去看下prank 和 test fork 的说明
 
+- 2.如果要真实交易记录的话,要改下前端
 
 <span id="jump7"></span>
+### 怎样快速的在测试环境发生交易?
+- forge script 里能调用script 进行交易
+- forge 里只能有一个msg.sender
+- forge script 里的合约运行调用其他合约的时候msg.sender就变成了script合约,在检查operator是否 有权限的程序里会因为script的地址和不在auth里而revert
+- 能不能把script写成一个代理合约->部署上去一次后 后部署上的script2调用script1里的方法并且在script1里检查tx.origin是否为owner从而达到权限的控制设计 -> 实际上不用检查tx.origin,只用把第一次部署的script给授权然后后面的调用都用第一个script的地址代理就行 -> 实际上还是要用户本身发起一次approve,无法通过script发起approve,看能不能用ethers.js或者干脆写前端做了
+
+
+<span id="jump8"></span>
 <span id="jump0"></span>
 [goto todo](#jump-1)

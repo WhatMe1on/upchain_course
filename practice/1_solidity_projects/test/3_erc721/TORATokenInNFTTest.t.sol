@@ -21,7 +21,10 @@ contract TORATokenInNFTTest is Test {
 
     function setUp() public {
         DeployNFTStore deployer = new DeployNFTStore();
-        (s_nft, s_nftStore, s_token) = deployer.run(INIT_TOKEN_AMOUNT * 2);
+        (address a, address b, address c) = deployer.run(INIT_TOKEN_AMOUNT * 2);
+        s_nft = NFTERC721(a);
+        s_nftStore = NFTStore(b);
+        s_token = TORATokenInNFT(c);
         s_owner = makeAddr("NFTOwner");
         s_buyer = makeAddr("NFTBuyer");
         vm.startPrank(address(msg.sender));
