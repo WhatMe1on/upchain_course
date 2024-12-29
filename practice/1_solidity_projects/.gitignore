@@ -8,7 +8,7 @@ out/
 /broadcast/**/dry-run/
 
 # 忽略anvil本地缓存文件 Ignores anvil local cache file
-/anvil
+/anvilstate
 
 # Docs
 docs/

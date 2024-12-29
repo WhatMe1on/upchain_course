@@ -40,6 +40,9 @@ endif
 date := $(shell date "+%Y-%m-%d")
 
 anvil:
+	@anvil --state $(TORA_PATH)/anvilstate/state.json
+
+anvilDay:
 	@anvil --state $(TORA_PATH)/anvilstate/$(date).state.json
 
 c3deploy:
