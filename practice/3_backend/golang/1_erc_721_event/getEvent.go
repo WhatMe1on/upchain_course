@@ -39,7 +39,7 @@ func check(err error) {
 }
 
 const uri = "http://localhost:8545"
-const addressStr = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+const addressStr = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
 const abiFile = "/home/ccacr/project/upchain_course/practice/1_solidity_projects/out/NFT.sol/NFTERC721.json"
 const TransferSig = "Transfer(address,address,uint256)"
 const ApprovalSig = "Approval(address,address,uint256)"
@@ -48,12 +48,12 @@ func main() {
 	client, err := ethclient.Dial(uri)
 	check(err)
 
-	// contractAddress := common.HexToAddress(addressStr)
+	contractAddress := common.HexToAddress(addressStr)
 	query := ethereum.FilterQuery{
 		FromBlock: big.NewInt(0),
 		ToBlock:   big.NewInt(3000),
 		Addresses: []common.Address{
-			// contractAddress,
+			contractAddress,
 		},
 	}
 
@@ -100,6 +100,7 @@ func logTransfer(contractAbi abi.ABI, vLog types.Log) {
 
 	transferEvent.From = common.HexToAddress(vLog.Topics[1].Hex())
 	transferEvent.To = common.HexToAddress(vLog.Topics[2].Hex())
+	transferEvent.tokenId = vLog.Topics[3].Big()
 
 	fmt.Printf("From: %s\n", transferEvent.From.Hex())
 	fmt.Printf("To: %s\n", transferEvent.To.Hex())
@@ -118,6 +119,7 @@ func logApproval(contractAbi abi.ABI, vLog types.Log) {
 
 	approvalEvent.Owner = common.HexToAddress(vLog.Topics[1].Hex())
 	approvalEvent.Approved = common.HexToAddress(vLog.Topics[2].Hex())
+	approvalEvent.tokenId = vLog.Topics[3].Big()
 
 	fmt.Printf("Token Owner: %s\n", approvalEvent.Owner.Hex())
 	fmt.Printf("Approved: %s\n", approvalEvent.Approved.Hex())
