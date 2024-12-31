@@ -3,10 +3,10 @@
 <span id="jump-1"></span>
 
 ## todo
-- [go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库](#jump6)
-- [怎样快速的在测试环境发生交易?](#jump7)
 
 ## finished
+- [怎样快速的在测试环境发生交易?](#jump7)
+- [go 后端与链 rpc调用 获取历史交易记录(by evm event) 并缓存至数据库](#jump6)
 - [anvil 里的区块交易慢](#jump5)
 
 - [如何通过在anvil链上部署test并切换账户部署呢](#jump2)
@@ -122,6 +122,7 @@ https://book.getfoundry.sh/reference/anvil/?highlight=anvil#mining-modes
 - forge script 里的合约运行调用其他合约的时候msg.sender就变成了script合约,在检查operator是否 有权限的程序里会因为script的地址和不在auth里而revert
 - 能不能把script写成一个代理合约->部署上去一次后 后部署上的script2调用script1里的方法并且在script1里检查tx.origin是否为owner从而达到权限的控制设计 -> 实际上不用检查tx.origin,只用把第一次部署的script给授权然后后面的调用都用第一个script的地址代理就行 -> 实际上还是要用户本身发起一次approve,无法通过script发起approve,看能不能用ethers.js或者干脆写前端做了
 
+做个前端连metamask发起交易
 
 <span id="jump8"></span>
 <span id="jump0"></span>
