@@ -5,6 +5,7 @@ libs = ["./lib"]
 remappings = [
     "@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/",
     "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+    '@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/src/',
 ]
 
 # below settings are for OZ upgrades plugins https://docs.openzeppelin.com/upgrades-plugins/1.x/foundry-defender

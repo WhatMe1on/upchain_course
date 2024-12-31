@@ -61,20 +61,20 @@ NETWORK_ARGS := --rpc-url $(RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
 NETWORK_ARGS += --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvvv
 endif
 
-printnet:;
-	echo NETWORK=$(NETWORK) && echo RPC_URL=$(RPC_URL) && echo PUB_ADDRESS=$(PUB_ADDRESS) 
+printnet: 
+	@echo NETWORK=$(NETWORK) && echo RPC_URL=$(RPC_URL) && echo PUB_ADDRESS=$(PUB_ADDRESS) 
 
-c3deploy: printnet;
-	forge clean && forge script script/3_erc721/DeployNFTStore.s.sol:DeployNFTStore $(NETWORK_ARGS) 
+c2deploy: printnet
+	@forge clean && forge script script/2_erc20/VaultDeploy.s.sol:VaultDeploy $(NETWORK_ARGS) 
 
-c4deploy: printnet;
-	forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
+c3deploy: printnet
+	@forge clean && forge script script/3_erc721/DeployNFTStore.s.sol:DeployNFTStore $(NETWORK_ARGS) 
 
-c4update: printnet;
-	forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
+c4deploy: printnet
+	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
 
-c5deploy: printnet;
-	forge clean && forge script script/5_bankWithVue/ERC2612Deploy.s.sol:ERC2612Deploy $(NETWORK_ARGS) 
+c4update: printnet
+	@forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
 
-c6: printnet;
-	echo "finishe"
+c5deploy: printnet
+	@forge clean && forge script script/5_bankWithVue/ERC2612Deploy.s.sol:ERC2612Deploy $(NETWORK_ARGS) 

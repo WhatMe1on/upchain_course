@@ -19,3 +19,6 @@
 [submodule "practice/1_solidity_projects/lib/openzeppelin-contracts-upgradeable"]
 	path = practice/1_solidity_projects/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable
+[submodule "practice/1_solidity_projects/lib/chainlink-brownie-contracts"]
+	path = practice/1_solidity_projects/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts

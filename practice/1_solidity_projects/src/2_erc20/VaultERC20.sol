@@ -15,13 +15,13 @@ contract VaultERC20 is ERC20 {
     error VaultERC20__NoTokensReceived();
 
     constructor() ERC20("VaultCoin", "VaC") {
-        _mint(msg.sender, 10 * 10 ** 18);
+        _mint(msg.sender, 1 * 10 ** (18 + 9));
     }
 
     //Actual environment don's exist this function, token was transfer by ERC20's transfer() or transferFrom()
-    function getToken() external {
-        _mint(msg.sender, 10 * 10 ** 18);
-    }
+    // function getToken() external {
+    //     _mint(msg.sender, 10 * 10 ** 18);
+    // }
 
     function deposit(address s_receipt, uint256 amount) external returns (bool) {
         //Add this function can let allowance reduce by the amount
