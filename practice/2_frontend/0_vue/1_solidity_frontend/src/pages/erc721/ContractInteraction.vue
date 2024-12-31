@@ -52,7 +52,7 @@
 <script>
 import { ethers } from 'ethers';
 import abiPath from '/home/ccacr/project/upchain_course/practice/1_solidity_projects/out/NFT.sol/NFTERC721.json'; // 拼接路径
-import contractAddressPath from '/home/ccacr/project/upchain_course/practice/1_solidity_projects/broadcast/DeployNFTStore.s.sol/31337/run-latest.json'; // 拼接路径
+import contractAddressPath from '/home/ccacr/project/upchain_course/practice/1_solidity_projects/broadcast/DeployNFTStore.s.sol/11155111/run-latest.json'; // 拼接路径
 // "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
 
 function decodeContractError(contract, errorData) {
@@ -190,14 +190,18 @@ export default {
       } catch (error) {
         // console.error(error);
         // this.result = rpcProvider.decode(error);
-        if (error.data.data && this.contract) {
-          console.log(1111)
-          const decodedError = this.contract.interface.parseError(error.data.data);
-          console.log(`Error decoded in contract:`, decodedError);
-          this.result = "Error decoded in contract: \n" + decodedError;
-        } else {
-          //If no specific error information is available, 
-          //a generic error message is logged to the console.
+        if (error.data) {
+          if (error.data.data && this.contract) {
+            console.log(1111)
+            const decodedError = this.contract.interface.parseError(error.data.data);
+            console.log(`Error decoded in contract:`, decodedError);
+            this.result = "Error decoded in contract: \n" + decodedError;
+          } else {
+            //If no specific error information is available, 
+            //a generic error message is logged to the console.
+            console.log(`Error in contract:`, error);
+          }
+        } {
           console.log(`Error in contract:`, error);
         }
       }

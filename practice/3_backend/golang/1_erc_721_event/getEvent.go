@@ -38,8 +38,8 @@ func check(err error) {
 	}
 }
 
-const uri = "http://localhost:8545"
-const addressStr = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+const uri = "https://rpc.sepolia.org"
+const addressStr = "0xce9745132b3ba5dad3164bc3f3c38e2b76e514fb"
 const abiFile = "/home/ccacr/project/upchain_course/practice/1_solidity_projects/out/NFT.sol/NFTERC721.json"
 const TransferSig = "Transfer(address,address,uint256)"
 const ApprovalSig = "Approval(address,address,uint256)"
@@ -50,8 +50,8 @@ func main() {
 
 	contractAddress := common.HexToAddress(addressStr)
 	query := ethereum.FilterQuery{
-		FromBlock: big.NewInt(0),
-		ToBlock:   big.NewInt(3000),
+		FromBlock: big.NewInt(7389800),
+		ToBlock:   big.NewInt(7390800),
 		Addresses: []common.Address{
 			contractAddress,
 		},

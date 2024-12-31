@@ -44,29 +44,37 @@ anvilDay:
 
 UPPERCASE_STRING = $(shell echo "$(1)" | tr '[:lower:]' '[:upper:]')
 
-NETWORK_ARGS := --rpc-url $(RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
+
 ifeq ($(ARGS),)
 NETWORK := ANVIL
-PRIVATE_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
-PUB_ADDRESS=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
-else 
-	NETWORK := $(call UPPERCASE_STRING,$(ARGS))
-	NETWORK_ARGS += --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvvv
-endif
-
 RPC_URL := $(value $(NETWORK)_RPC_URL)
 
-printParameter:
-	@echo NETWORK=$(NETWORK) && echo RPC_URL=$(RPC_URL) && echo PUB_ADDRESS=$(PUB_ADDRESS) 
+PRIVATE_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+PUB_ADDRESS := 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
 
-c3deploy:
-	@printParameter && forge clean && forge script script/3_erc721/DeployNFTStore.s.sol:DeployNFTStore  $(NETWORK_ARGS) 
+NETWORK_ARGS := --rpc-url $(RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
+else 
+NETWORK := $(call UPPERCASE_STRING,$(ARGS))
+RPC_URL := $(value $(NETWORK)_RPC_URL)
 
-c4deploy:
-	@printParameter && forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
+NETWORK_ARGS := --rpc-url $(RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
+NETWORK_ARGS += --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvvv
+endif
 
-c4update:
-	@printParameter && forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
+printnet:;
+	echo NETWORK=$(NETWORK) && echo RPC_URL=$(RPC_URL) && echo PUB_ADDRESS=$(PUB_ADDRESS) 
 
-c5deploy:
-	@printParameter && forge clean && forge script script/5_bankWithVue/ERC2612Deploy.s.sol:ERC2612Deploy $(NETWORK_ARGS) 
+c3deploy: printnet;
+	forge clean && forge script script/3_erc721/DeployNFTStore.s.sol:DeployNFTStore $(NETWORK_ARGS) 
+
+c4deploy: printnet;
+	forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenDeploy $(NETWORK_ARGS) 
+
+c4update: printnet;
+	forge clean && forge script script/4_upgradableERC20/TokenDeploy.s.sol:TokenUpdate $(NETWORK_ARGS)
+
+c5deploy: printnet;
+	forge clean && forge script script/5_bankWithVue/ERC2612Deploy.s.sol:ERC2612Deploy $(NETWORK_ARGS) 
+
+c6: printnet;
+	echo "finishe"
