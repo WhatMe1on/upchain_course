@@ -9,7 +9,7 @@ contract Vault is TokenRecipient, AutomationCompatibleInterface {
     error Vault__callerNotTokenAddress();
     error Vault__notOwner();
 
-    uint256 constant AUTO_WITHDRAW_AMOUNT = 1 * 10 * 2;
+    uint256 constant AUTO_WITHDRAW_AMOUNT = 1 * 10 ** 2;
 
     address immutable s_tokenAddress;
     address s_managerAddress;
