@@ -22,3 +22,15 @@
 [submodule "practice/1_solidity_projects/lib/chainlink-brownie-contracts"]
 	path = practice/1_solidity_projects/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "practice/1_solidity_projects/lib/v3-core"]
+	path = practice/1_solidity_projects/lib/v3-core
+	url = https://github.com/Uniswap/v3-core
+[submodule "practice/1_solidity_projects/lib/v3-periphery"]
+	path = practice/1_solidity_projects/lib/v3-periphery
+	url = https://github.com/Uniswap/v3-periphery
+[submodule "practice/1_solidity_projects/lib/v2-core"]
+	path = practice/1_solidity_projects/lib/v2-core
+	url = https://github.com/Uniswap/v2-core
+[submodule "practice/1_solidity_projects/lib/v2-periphery"]
+	path = practice/1_solidity_projects/lib/v2-periphery
+	url = https://github.com/Uniswap/v2-periphery

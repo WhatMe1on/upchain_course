@@ -29,7 +29,7 @@ snapshot :; forge snapshot
 
 format :; forge fmt
 
-anvil :; anvil -m 'test test test test test test test test test test test junk' --steps-tracing --block-time 1
+# anvil :; anvil -m 'test test test test test test test test test test test junk' --steps-tracing --block-time 1
 
 ## anvil --load-state and --dump-state 
 date := $(shell date "+%Y-%m-%d")
